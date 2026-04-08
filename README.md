@@ -28,3 +28,6 @@ Hyperparameter Tuning: We optimized the Random Forest by testing various combina
 📈 Results & Evaluation
 The models are evaluated using metrics such as Mean Squared Error (MSE) and R-squared (
 ) to determine which predictor most accurately follows the actual stock trend.In last it also give the graph comparing the two models results
+
+<img width="920" height="255" alt="image" src="https://github.com/user-attachments/assets/55b586cd-e233-4d51-9a40-f9c91103cf61" />
+above are the result of linear regression and randomforestregressor for the dataset with added features like EMA_10 ,EMA_50 ,Pct_Change ,RSI,Volatility_10,MACD,MACD,Bollinger Bands
