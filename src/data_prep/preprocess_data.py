@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Step 1: Load dataset
-df = pd.read_csv("aapl_ticker.csv")  
+df = pd.read_csv("data/raw/aapl_ticker.csv")  
 
 print("Original Data:")
 print(df.head())
@@ -43,7 +43,7 @@ if 'Volume' not in df.columns:
 df = df.dropna()
 
 # Step 7: Save preprocessed data
-df.to_csv("preprocessed_data.csv")
+df.to_csv("data/interim/preprocessed_data.csv")
 
 print("\n✅ Preprocessing done!")
 print("New file saved as 'preprocessed_data.csv'")

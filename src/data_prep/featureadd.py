@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
-df = pd.read_csv("preprocessed_data.csv")
+df = pd.read_csv("data/interim/preprocessed_data.csv")
 
 print("Original Shape:", df.shape)
 
@@ -66,8 +67,17 @@ df = df.dropna()
 print("After Feature Engineering Shape:", df.shape)
 
 # -----------------------------
+# 8.5 Normalize / Scale Data
+# -----------------------------
+scaler = MinMaxScaler()
+# Assuming we want to scale all numerical columns except Date if it's there
+cols_to_scale = df.select_dtypes(include=[np.number]).columns
+df[cols_to_scale] = scaler.fit_transform(df[cols_to_scale])
+
+# -----------------------------
+
 # 9. Save new dataset
 # -----------------------------
-df.to_csv("final_featured_data.csv", index=False)
+df.to_csv("data/processed/final_featured_data.csv", index=False)
 
 print("✅ Feature engineered dataset saved as final_featured_data.csv")

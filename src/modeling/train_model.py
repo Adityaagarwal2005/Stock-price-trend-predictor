@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 # Step 1: Load preprocessed data
-df = pd.read_csv("preprocessed_data.csv")
+df = pd.read_csv("data/interim/preprocessed_data.csv")
 
 # Step 2: Define features
 features = ['lag1', 'lag2', 'lag3', 'SMA_10', 'SMA_50', 'returns', 'Volume']

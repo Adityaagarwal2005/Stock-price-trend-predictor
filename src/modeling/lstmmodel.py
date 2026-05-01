@@ -4,18 +4,19 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
 from sklearn.metrics import r2_score
 
 # 1. Load the data
 print("Loading data...")
-df = pd.read_csv("aapl_ticker.csv")
+df = pd.read_csv("data/raw/aapl_ticker.csv")
 
 # We will use the 'Close' price to predict the trend
 data = df.filter(['Close'])
 dataset = data.values
 
 # Get the number of rows to train the model on (80% of data)
-training_data_len = int(np.ceil(len(dataset) * .8))
+training_data_len = int(len(dataset) * 0.8)
 
 # 2. Scale the data
 scaler = MinMaxScaler(feature_range=(0, 1))
@@ -44,15 +45,17 @@ x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 # 4. Build the LSTM model
 print("Building the model...")
 model = Sequential()
-model.add(LSTM(units=50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+model.add(LSTM(64, return_sequences=True, input_shape=(x_train.shape[1], 1)))
 model.add(Dropout(0.2))
-model.add(LSTM(units=50, return_sequences=False))
+
+model.add(LSTM(64))
 model.add(Dropout(0.2))
-model.add(Dense(units=25))
-model.add(Dense(units=1))
+
+model.add(Dense(1))
 
 # 5. Compile the model
-model.compile(optimizer='adam', loss='mean_squared_error')
+optimizer = Adam(learning_rate=0.001)
+model.compile(optimizer=optimizer, loss='mean_squared_error')
 
 # 6. Train the model
 print("Training the model...")
@@ -84,6 +87,12 @@ print(f"RMSE: {rmse}")
 
 r2 = r2_score(y_test, predictions)
 print(f"R2 Score: {r2}")
+
+# Calculate direction accuracy
+actual_direction = np.sign(y_test[1:] - y_test[:-1])
+predicted_direction = np.sign(predictions[1:] - y_test[:-1])
+direction_accuracy = np.mean(actual_direction == predicted_direction)
+print(f"Direction Accuracy: {direction_accuracy * 100:.2f}%")
 
 # 10. Plot the data
 train = data[:training_data_len]

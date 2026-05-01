@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Step 1: Load preprocessed data
-df = pd.read_csv("preprocessed_data.csv")
+df = pd.read_csv("data/interim/preprocessed_data.csv")
 
 # Step 2: Fix leakage in moving averages (IMPORTANT)
 df['SMA_10'] = df['Close'].shift(1).rolling(window=10).mean()
